@@ -6,14 +6,26 @@ using namespace std;
 vector<int> list[300005];
 int N;
 
-int DFS(int depth){
-    if(depth == 1){
-        
+long long traverse(int first){
+    long long sum = 0;
+    int size1 = list[first].size();
+    for(int i=0;i<size1;i++){
+        int second = list[first][i];
+        int size2 = list[second].size();
+        for(int j=0;j<size2;j++){
+            int third = list[second][j];
+            if(third == first) continue;
+            sum += list[third].size()-1;
+        }
     }
-    else {
-
-    }
+    return sum;
 }
+
+long long combination3(long long n){
+    if(n >= 3) return n * (n-1) * (n-2) / 6;
+    else return 0;
+}
+
 
 int main(){
     scanf("%d", &N);
@@ -21,8 +33,18 @@ int main(){
     for(int i=0; i<N-1 ;i++){
         int start, end;
         scanf("%d%d", &start, &end);
-        list[start].push_back(end);
-        list[end].push_back(start);
+        list[start-1].push_back(end-1);
+        list[end-1].push_back(start-1);
     }
 
+    long long D = 0, G = 0;
+    for(int i=0;i<N;i++){
+        D += traverse(i);
+        G += combination3(list[i].size());
+    }
+    D /= 2;
+
+    if(D > 3*G) printf("D");
+    else if(D < 3*G) printf("G");
+    else printf("DUDUDUNGA");
 }
