@@ -6,17 +6,12 @@ using namespace std;
 vector<int> list[300005];
 int N;
 
-long long traverse(int first){
+long long traverse(int second){
     long long sum = 0;
-    int size1 = list[first].size();
+    int size1 = list[second].size();
     for(int i=0;i<size1;i++){
-        int second = list[first][i];
-        int size2 = list[second].size();
-        for(int j=0;j<size2;j++){
-            int third = list[second][j];
-            if(third == first) continue;
-            sum += list[third].size()-1;
-        }
+        int third = list[second][i];
+        sum += (list[third].size()-1)*(size1-1);
     }
     return sum;
 }
